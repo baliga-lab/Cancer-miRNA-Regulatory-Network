@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block title %}Cancer miRNA Regulatory Network{% endblock %}
 {% block javascript %}
 {% endblock %}
@@ -40,7 +41,7 @@
                     <td>
                         <p>We provide FIRM as a tarred and gzipped file:
                         <ul>
-                            <li><a href='/static/firm/FIRM.tgz'>Download FIRM.tgz (16.5MB)</a></li>
+                            <li><a href="{% static "firm/FIRM.tgz" %}">Download FIRM.tgz (16.5MB)</a></li>
                         </ul>
                         Once downloaded navigate a Linux command prompt to the directory containing the file and run:
                         <pre>    prompt> tar xvzf FIRM.tgz</pre>

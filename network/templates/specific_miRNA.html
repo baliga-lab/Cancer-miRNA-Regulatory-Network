@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block title %}Cancer miRNA Regulatory Network{% endblock %}
-{% block javascript %}        <script src="sorttable.js"></script>
-        <script type="text/javascript" src="/static/jquery-1.6.1.min.js"></script> 
-        <script type="text/javascript" src="/static/jquery.tablesorter.min.js"></script>
-        <script type='text/javascript'>
-            $(document).ready(function() 
-            { 
-                $("#infTable").tablesorter( {sortList: [[0,0], [1,0]]} ); 
-            } 
-            );
-        </script>
+{% block javascript %}
+  <script type="text/javascript" src="{% static "js/jquery-1.6.1.min.js" %}"></script> 
+  <script type="text/javascript" src="{% static "js/jquery.tablesorter.min.js" %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() 
+    { 
+      $("#infTable").tablesorter( {sortList: [[0,0], [1,0]]} ); 
+    });
+  </script>
 {% endblock %}
 {% block content_col1 %}        <p>
             <table class='center'>

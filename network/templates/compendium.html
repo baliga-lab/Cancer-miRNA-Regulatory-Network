@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block title %}Cancer miRNA Regulatory Network{% endblock %}
 
 {% block javascript %}
@@ -63,7 +63,7 @@
                     <p>
                     We used this compendium to assess the performance of methods to infer miRNA mediated regulation .  The compendium can be donwloaded as a comma separated file (CSV) file:</p>
                         <ul>
-                            <li><a href='/static/compendium_miRNA_target_genes.csv'>compendium_miRNA_target_genes.csv</a></li>
+                            <li><a href="{% static "compendium_miRNA_target_genes.csv" %}">compendium_miRNA_target_genes.csv</a></li>
                         </ul>
                     The CSV file contians 5,129 entries with three columns:
                         <ol>

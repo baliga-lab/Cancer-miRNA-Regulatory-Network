@@ -1,17 +1,14 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block title %}Cancer miRNA Regulatory Network{% endblock %}
-
-{% block javascript %}<script type="text/javascript" src="/static/jquery-1.6.1.min.js"></script> 
+{% block javascript %}<script type="text/javascript" src="{% static "js/jquery-1.6.1.min.js" %}"></script> 
         <script type='text/javascript'>
             $(document).ready(function() 
             { 
-                $("#infTable").tablesorter( {sortList: [[0,0], [1,0]]} ); 
-            } 
-            );
-            $("#miRNA").html($("#miRNA option").sort(function (a, b) {
+              $("#miRNA").html($("#miRNA option").sort(function (a, b) {
                 return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-            }))
+              }));
+            });
         </script>
 {% endblock %}
 
