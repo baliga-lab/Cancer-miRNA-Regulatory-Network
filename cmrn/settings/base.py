@@ -10,7 +10,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
     ('cplaisier', 'cplaisier@systemsbiology.org'),
 )
 
@@ -110,12 +109,12 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'cmrn.urls'
+WSGI_APPLICATION = 'cmrn.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    #'/opt/bitnami/apps/django/django_projects/Project/templates',
 )
 
 INSTALLED_APPS = (
