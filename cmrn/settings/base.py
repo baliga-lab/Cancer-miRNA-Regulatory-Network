@@ -10,7 +10,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('cplaisier', 'cplaisier@systemsbiology.org'),
+    ('wwu', 'wwu@systemsbiology.org'),
 )
 
 MANAGERS = ADMINS
