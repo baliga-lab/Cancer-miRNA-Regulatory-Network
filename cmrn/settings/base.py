@@ -9,6 +9,8 @@ root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
 ADMINS = (
     ('wwu', 'wwu@systemsbiology.org'),
 )
