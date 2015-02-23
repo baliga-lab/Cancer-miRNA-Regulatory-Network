@@ -592,11 +592,8 @@ def dataset(request):
     html = t.render(Context({'dataset':dataset, 'cancer':cancer, 'entries':entries, 'wikipedia':wikipedia, 'details':c1 }))
     return HttpResponse(html)
 
-def cluster(request):
+def cluster(request, cancer=None, cluster=None):
     t = get_template('cluster.html')
-    splitUp = request.path.split('/')
-    cancer = splitUp[2]
-    cluster = splitUp[3]
     # Get all cancers and put them into an array of dictionaries
     c1 = Coexpression_Cluster.objects.get(cancer__short_name=cancer, number=int(cluster))
     clust_genes = [i.entrez_id for i in c1.cluster_membership.all()]
