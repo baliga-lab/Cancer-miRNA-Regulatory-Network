@@ -13,8 +13,9 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os
+import os, sys
 
+sys.path.insert(0, '/local/apache-stuff/cmrn')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cmrn.settings.production")
 
 # This application object is used by any WSGI server configured to use this

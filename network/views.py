@@ -1,7 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.template.loader import get_template
-from django.template import Context
 from django.db.models import Q
 from network.models import *
 from copy import deepcopy
@@ -66,7 +65,7 @@ def index(request):
             'evading_immune_detection':'Evading Immune Detection',
             'tumor_promoting_inflammation':'Tumor Promting Inflammation'
             }
-    html = t.render(Context({'hallmarks':hallmarks}))
+    html = t.render({'hallmarks':hallmarks})
     return HttpResponse(html)
 
 def cancer(request):
@@ -158,7 +157,7 @@ def cancer(request):
     else:
         wikipedia = wikipedia + cancer
 
-    html = t.render(Context({'cancer':cancer, 'wikipedia':wikipedia, 'entries':entries}))
+    html = t.render({'cancer':cancer, 'wikipedia':wikipedia, 'entries':entries})
     return HttpResponse(html)
 
 def gene_ontology(request):
@@ -188,7 +187,7 @@ def gene_ontology(request):
         if num_genes > 0:
             entries.append({ 'go_id':fe1.gene_ontology.go_id, 'term':fe1.gene_ontology.term, 'num_genes':num_genes, 'clust_genes':clust_genes, 'go_genes':go_genes })
     
-    html = t.render(Context({ 'entries':entries, 'cancer':cancer, 'cluster':cluster, 'category': category }))
+    html = t.render({ 'entries':entries, 'cancer':cancer, 'cluster':cluster, 'category': category })
     return HttpResponse(html)
 
 def gene_listing(request):
@@ -214,7 +213,7 @@ def gene_listing(request):
             cur['yea_or_nea'] = ''
         entries.append(cur)
         
-    html = t.render(Context({ 'cancer': cancer, 'cluster': cluster, 'term': term, 'entries': entries }))
+    html = t.render({ 'cancer': cancer, 'cluster': cluster, 'term': term, 'entries': entries })
     return HttpResponse(html)
 
 def overlapping_mirna(request):
@@ -236,7 +235,7 @@ def overlapping_mirna(request):
     for mirna in mirna_counts:
         if mirna_counts[mirna]>=2:
             overlapping[mirna_names[mirna]] = inferred_mirna[mirna]
-    html = t.render(Context({ 'overlapping': overlapping }))
+    html = t.render({ 'overlapping': overlapping })
     return HttpResponse(html)
 
 def overlapping_mirna_go(request):
@@ -281,12 +280,12 @@ def overlapping_mirna_go(request):
                                     go1 = Gene_Ontology.objects.get(go_id=go_id1)
                                     terms.append({ 'go_id':go_id1, 'category':go1.category, 'term':go1.term })
                                 overlapping.append({'mirna': mirna, 'mirna_name': mirna_names[mirna], 'gene_ontology':terms, 'cluster_1':f1[i1], 'cluster_2':f1[i2]})
-    html = t.render(Context({ 'overlapping': overlapping }))
+    html = t.render({ 'overlapping': overlapping })
     return HttpResponse(html)
 
 def cytoscape_web_example(request):
     t = get_template('cytoscape_web.html')
-    html = t.render(Context({}))
+    html = t.render({})
     return HttpResponse(html)
 
 def cytoscape_web_common_mirna(request):
@@ -442,7 +441,7 @@ def count_em(request):
         if cc1 in cc_all:
             if not cc1 in coincident_cc:
                 coincident_cc.append(cc1)
-    html = t.render(Context({'num_fe':len(cc_all), 'num_coincident':len(coincident_cc)}))
+    html = t.render({'num_fe':len(cc_all), 'num_coincident':len(coincident_cc)})
     return HttpResponse(html)
 
 def count_em2(request):
@@ -476,7 +475,7 @@ def count_em2(request):
             TargetScan_validated.append(im1.coexpression_cluster.__unicode__())
             if not im1.coexpression_cluster.__unicode__() in all_validated:
                 all_validated.append(im1.coexpression_cluster.__unicode__())
-    html = t.render(Context({'miRvestigator':len(miRvestigator_validated), 'PITA':len(PITA_validated), 'TargetScan':len(TargetScan_validated), 'all':len(all_validated)}))
+    html = t.render({'miRvestigator':len(miRvestigator_validated), 'PITA':len(PITA_validated), 'TargetScan':len(TargetScan_validated), 'all':len(all_validated)})
     return HttpResponse(html)
 
 def inference(request):
@@ -527,7 +526,7 @@ def inference(request):
             if 'MF' in clusters[cluster]:
                 tmpDict['MF'] = 'MF'
         miRNAs.append(deepcopy(tmpDict))
-    html = t.render(Context({'method':method, 'entries':miRNAs}))
+    html = t.render({'method':method, 'entries':miRNAs})
     return HttpResponse(html)
 
 def dataset(request):
@@ -589,7 +588,7 @@ def dataset(request):
     else:
         wikipedia = wikipedia
     c1.publication = c1.publication.strip('"')
-    html = t.render(Context({'dataset':dataset, 'cancer':cancer, 'entries':entries, 'wikipedia':wikipedia, 'details':c1 }))
+    html = t.render({'dataset':dataset, 'cancer':cancer, 'entries':entries, 'wikipedia':wikipedia, 'details':c1 })
     return HttpResponse(html)
 
 def cluster(request, cancer=None, cluster=None):
@@ -642,7 +641,7 @@ def cluster(request, cancer=None, cluster=None):
     else:
         wikipedia = wikipedia
     c1.publication = c1.publication.strip('"')
-    html = t.render(Context({'dataset':dataset, 'cancer':cancer, 'cluster':cluster, 'num_clust_genes': len(clust_genes), 'regulation':regulation, 'functional_enrichment':functional_enrichment, 'wikipedia':wikipedia, 'details':c1, 'overlaps':overlap })) #, 'genes':genes}))
+    html = t.render({'dataset':dataset, 'cancer':cancer, 'cluster':cluster, 'num_clust_genes': len(clust_genes), 'regulation':regulation, 'functional_enrichment':functional_enrichment, 'wikipedia':wikipedia, 'details':c1, 'overlaps':overlap }) #, 'genes':genes}))
     return HttpResponse(html)
 
 def miRNA(request):
@@ -677,7 +676,7 @@ def miRNA(request):
         if gene in TargetScan_target_genes:
             entry['target_TargetScan'] = 'T'
         entries.append(entry)
-    html = t.render(Context({'cancer':cancer, 'cluster':cluster, 'miRNA':m1.name, 'entries':entries}))
+    html = t.render({'cancer':cancer, 'cluster':cluster, 'miRNA':m1.name, 'entries':entries})
     return HttpResponse(html)
 
 def specific_miRNA(request):
@@ -688,7 +687,7 @@ def specific_miRNA(request):
     im_all = Inferred_MiRNA.objects.filter(mirna__mature_sequence_id=miRNA)
     for im1 in im_all:
         entries.append({'dataset':im1.coexpression_cluster.cancer.short_name,'cluster':im1.coexpression_cluster.number,'method':im1.method})
-    html = t.render(Context({'miRNA':miRNA, 'entries':entries}))
+    html = t.render({'miRNA':miRNA, 'entries':entries})
     return HttpResponse(html)
 
 def mirna_and_go_term(request):
@@ -724,7 +723,7 @@ def mirna_and_go_term(request):
         for fe1 in coincident_cc_dict[cc1]['funcEnrich']:
             entry['funcEnrich'][fe1.gene_ontology.go_id] = { 'term':fe1.gene_ontology.term, 'category':fe1.gene_ontology.category }
         entries.append(entry)
-    html = t.render(Context({ 'entries': entries }))
+    html = t.render({ 'entries': entries })
     return HttpResponse(html)
 
 def mirna_and_go_term_csv(request):
@@ -772,22 +771,22 @@ def mirna_and_go_term_csv(request):
 
 def compendium(request):
     t = get_template('compendium.html')
-    html = t.render(Context())
+    html = t.render({})
     return HttpResponse(html)
 
 def firm(request):
     t = get_template('firm.html')
-    html = t.render(Context())
+    html = t.render({})
     return HttpResponse(html)
 
 def help_page(request):
     t = get_template('help.html')
-    html = t.render(Context())
+    html = t.render({})
     return HttpResponse(html)
 
 def citation(request):
     t = get_template('citation.html')
-    html = t.render(Context())
+    html = t.render({})
     return HttpResponse(html)
 
 def hallmark(request):
@@ -869,7 +868,7 @@ def hallmark(request):
         entries.append(tmp[entry])
 
     # Create a wikipedia URL and pretty up the cancer name
-    html = t.render(Context({'hallmark':hallmarkDict[hallmark], 'entries':entries}))
+    html = t.render({'hallmark':hallmarkDict[hallmark], 'entries':entries})
     return HttpResponse(html)
 
 def hallmarks(request):
@@ -950,7 +949,7 @@ def hallmarks(request):
         entries.append(tmp[entry])
 
     # Create a wikipedia URL and pretty up the cancer name
-    html = t.render(Context({'hallmark':'all','entries':entries}))
+    html = t.render({'hallmark':'all','entries':entries})
     return HttpResponse(html)
 
 def supplementary_table_8_csv(request):
@@ -1189,7 +1188,7 @@ def overlap(request):
         else:
             entry['go_gene'] = ''
         entries.append(entry)
-    html = t.render(Context({'cancer':cancer, 'cluster':cluster, 'miRNA':m1.name, 'entries':entries, 'method':method, 'go_id':go_id, 'go_term':go_term}))
+    html = t.render({'cancer':cancer, 'cluster':cluster, 'miRNA':m1.name, 'entries':entries, 'method':method, 'go_id':go_id, 'go_term':go_term})
     return HttpResponse(html)
 
 def significant_overlapping_mirna_go_csv(request):
@@ -1512,7 +1511,7 @@ def clusters_overlapping(request):
         tmp[entry]['url_mf'] = entry.replace(' - ','/').replace(' ','_')+'/mf'
         tmp[entry]['url_cc'] = entry.replace(' - ','/').replace(' ','_')+'/cc'
         entries.append(tmp[entry])
-    html = t.render(Context({'entries':entries,'miRNAs':miRNAs}))
+    html = t.render({'entries':entries,'miRNAs':miRNAs})
     return HttpResponse(html)
 
 def clusters_overlapping_hallmarks(request):
@@ -1609,7 +1608,7 @@ def clusters_overlapping_hallmarks(request):
         tmp[entry]['url_mf'] = entry.replace(' - ','/').replace(' ','_')+'/mf'
         tmp[entry]['url_cc'] = entry.replace(' - ','/').replace(' ','_')+'/cc'
         entries.append(tmp[entry])
-    html = t.render(Context({'entries':entries,'miRNAs':miRNAs}))
+    html = t.render({'entries':entries,'miRNAs':miRNAs})
     return HttpResponse(html)
 
 def clusters_overlapping_hallmarks_mir2disease(request):
@@ -1708,7 +1707,7 @@ def clusters_overlapping_hallmarks_mir2disease(request):
         tmp[entry]['url_mf'] = entry.replace(' - ','/').replace(' ','_')+'/mf'
         tmp[entry]['url_cc'] = entry.replace(' - ','/').replace(' ','_')+'/cc'
         entries.append(tmp[entry])
-    html = t.render(Context({'entries':entries,'miRNAs':miRNAs}))
+    html = t.render({'entries':entries,'miRNAs':miRNAs})
     return HttpResponse(html)
 
 def clusters_overlapping_pita_targetscan(request):
@@ -1794,7 +1793,7 @@ def clusters_overlapping_pita_targetscan(request):
         tmp[entry]['url_mf'] = entry.replace(' - ','/').replace(' ','_')+'/mf'
         tmp[entry]['url_cc'] = entry.replace(' - ','/').replace(' ','_')+'/cc'
         entries.append(tmp[entry])
-    html = t.render(Context({'entries':entries}))
+    html = t.render({'entries':entries})
     return HttpResponse(html)
 
 def clusters_overlapping_pita_targetscan_cancer(request):
@@ -1886,7 +1885,7 @@ def clusters_overlapping_pita_targetscan_cancer(request):
         tmp[entry]['url_mf'] = entry.replace(' - ','/').replace(' ','_')+'/mf'
         tmp[entry]['url_cc'] = entry.replace(' - ','/').replace(' ','_')+'/cc'
         entries.append(tmp[entry])
-    html = t.render(Context({'entries':entries}))
+    html = t.render({'entries':entries})
     return HttpResponse(html)
 
 def sig_overlap_network_sif(request):
